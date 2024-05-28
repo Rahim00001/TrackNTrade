@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom/client'
 import { ChakraProvider } from '@chakra-ui/react'
 import './index.css'
 import Main from './Layout/Main';
-import Home from './Components/Home/Home';
+import Home from './Pages/Home/Home';
+import Login from './Pages/Login/Login';
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import Register from './Pages/Register/Register';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +19,14 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>
+      },
+      {
+        path: "/login",
+        element: <Login></Login>
+      },
+      {
+        path: "/register",
+        element: <Register></Register>
       },
     ]
   },
