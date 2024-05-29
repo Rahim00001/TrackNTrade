@@ -3,13 +3,22 @@ import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaRegUser } from "react-icons/fa";
 import { AuthContext } from '../../providers/AuthProvider';
+import Swal from 'sweetalert2';
 
 const MenuDropdown = () => {
     const [isOpen, setIsOpen] = useState(false)
     const { user, logOut } = useContext(AuthContext)
     const handleLogOut = () => {
         logOut()
-            .then(() => { })
+            .then(() => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Logout Successfully",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
             .catch(error => {
                 console.log(error);
             })
