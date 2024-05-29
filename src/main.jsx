@@ -10,6 +10,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Register from './Pages/Register/Register';
+import AuthProvider from './providers/AuthProvider';
 
 const router = createBrowserRouter([
   {
@@ -34,8 +35,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ChakraProvider>
-      <RouterProvider router={router} />
-    </ChakraProvider>
+    <AuthProvider>
+      <ChakraProvider>
+        <RouterProvider router={router} />
+      </ChakraProvider>
+    </AuthProvider>
   </React.StrictMode>,
 )

@@ -5,34 +5,22 @@ import {
     Input,
     CardBody,
 } from '@chakra-ui/react'
-// import { useContext } from "react";
+import { useContext } from "react";
+import { AuthContext } from '../../providers/AuthProvider';
 import { useForm } from "react-hook-form";
-// import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 const Login = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    // const { createUser, updateUserProfile } = useContext(AuthContext);
-    // const navigate = useNavigate();
+    const { logIn } = useContext(AuthContext);
 
     const onSubmit = data => {
         console.log(data)
         reset()
-        // createUser(data.email, data.password)
-        //     .then(result => {
-        //         const loggedUser = result.user;
-        //         console.log(loggedUser);
-        //         updateUserProfile(data.name, data.photoURL)
-        //             .then(() => {
-        //                 console.log('user profile updated');
-        //                 reset();
-        //                 Swal.fire({
-        //                     title: "Success",
-        //                     text: "User Created Successfully",
-        //                     icon: "success"
-        //                 });
-        //                 navigate('/')
-        //             })
-        //             .catch(error => console.log(error))
-        //     })
+        logIn(data.email, data.password)
+            .then(result => {
+                const User = result.user;
+                console.log(User);
+            })
     };
     return (
         <div className='w-full h-[85vh] flex justify-center items-center'>
@@ -70,6 +58,7 @@ const Login = () => {
                             <Input type="submit" value="Login" className="btn btn-primary" />
                         </FormControl>
                     </form>
+                    <p><small>New Here? <Link to="/register">Create a new account</Link></small></p>
                 </CardBody>
             </Card>
         </div>

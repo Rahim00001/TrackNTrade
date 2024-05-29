@@ -1,10 +1,19 @@
 import { Card, CardBody, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const Register = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const { createUser } = useContext(AuthContext);
     const onSubmit = data => {
         console.log(data);
+        createUser(data.email, data.password)
+            .then(result => {
+                const loggedUser = result.user;
+                console.log(loggedUser);
+            })
         reset()
     };
     return (
@@ -12,7 +21,7 @@ const Register = () => {
             <Card maxW='sm' variant={'filled'} className='ml-5 p-5 w-full'>
                 <CardBody>
                     <h1 className='text-center text-4xl font-bold mb-7'>Please Register</h1>
-                    <form onSubmit={handleSubmit(onSubmit)} className="card-body">
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <FormControl isRequired className='mb-3'>
                             <FormLabel>Your Name</FormLabel>
                             <Input type="text" {...register("name", { required: true })} name="name" placeholder="name" />
@@ -50,9 +59,10 @@ const Register = () => {
                             )}
                         </FormControl>
                         <FormControl className="form-control mt-6">
-                            <Input type="submit" value="Register" className="btn btn-primary" />
+                            <Input type="submit" value="Register" colorScheme='teal' variant='solid' />
                         </FormControl>
                     </form>
+                    <p><small>Already have an acoount? <Link to="/login">Login</Link></small></p>
                 </CardBody>
             </Card>
         </div>
