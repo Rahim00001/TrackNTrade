@@ -1,26 +1,32 @@
 import { Card, CardBody, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
 
 const Register = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    const { createUser } = useContext(AuthContext);
+    const { createUser, updateUserProfile } = useContext(AuthContext);
+    const navigate = useNavigate();
     const onSubmit = data => {
+        console.log(data)
         createUser(data.email, data.password)
             .then(result => {
                 const loggedUser = result.user;
                 console.log(loggedUser);
-                reset()
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Registerd Successfully",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
+                updateUserProfile(data.name, data.photoURL)
+                    .then(() => {
+                        console.log('user profile updated');
+                        reset();
+                        Swal.fire({
+                            title: "Success",
+                            text: "User Created Successfully",
+                            icon: "success"
+                        });
+                        navigate('/')
+                    })
+                    .catch(error => console.log(error))
             })
     };
     return (

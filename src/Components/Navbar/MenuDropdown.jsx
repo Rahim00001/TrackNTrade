@@ -1,13 +1,14 @@
 import { AiOutlineMenu } from 'react-icons/ai'
 import { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { FaRegUser } from "react-icons/fa";
+import { Link, useNavigate } from 'react-router-dom'
+import avatarImg from '../../assets/placeholder.jpg'
 import { AuthContext } from '../../providers/AuthProvider';
 import Swal from 'sweetalert2';
 
 const MenuDropdown = () => {
     const [isOpen, setIsOpen] = useState(false)
-    const { user, logOut } = useContext(AuthContext)
+    const { user, logOut } = useContext(AuthContext);
+    const navigate = useNavigate()
     const handleLogOut = () => {
         logOut()
             .then(() => {
@@ -22,12 +23,13 @@ const MenuDropdown = () => {
             .catch(error => {
                 console.log(error);
             })
+        navigate('/')
     }
 
     return (
         <div className='relative'>
             <div className='flex flex-row items-center gap-3'>
-                {/* Become A Host btn */}
+                {/* +Sale btn */}
                 <div className='hidden md:block'>
                     <button className='disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full  transition'>
                         +Sale Order
@@ -41,7 +43,14 @@ const MenuDropdown = () => {
                     <AiOutlineMenu />
                     <div className='hidden md:block'>
                         {/* Avatar */}
-                        <FaRegUser size={18} />
+                        <img
+                            className='rounded-full'
+                            referrerPolicy='no-referrer'
+                            src={user && user.photoURL ? user.photoURL : avatarImg}
+                            alt='profile'
+                            height='30'
+                            width='30'
+                        />
                     </div>
                 </div>
             </div>
