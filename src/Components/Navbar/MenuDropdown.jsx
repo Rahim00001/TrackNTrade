@@ -1,12 +1,19 @@
 import { AiOutlineMenu } from 'react-icons/ai'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaRegUser } from "react-icons/fa";
-// import useAuth from '../../../hooks/useAuth'
+import { AuthContext } from '../../providers/AuthProvider';
 
 const MenuDropdown = () => {
     const [isOpen, setIsOpen] = useState(false)
-    //   const { user } = useAuth()
+    const { user, logOut } = useContext(AuthContext)
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => {
+                console.log(error);
+            })
+    }
 
     return (
         <div className='relative'>
@@ -39,18 +46,24 @@ const MenuDropdown = () => {
                             Home
                         </Link>
 
-                        <Link
-                            to='/login'
-                            className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-                        >
-                            Login
-                        </Link>
-                        <Link
-                            to='/register'
-                            className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-                        >
-                            Register
-                        </Link>
+                        {
+                            user ? <div onClick={handleLogOut} className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'>
+                                Logout
+                            </div> : <>
+                                <Link
+                                    to='/login'
+                                    className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                                >
+                                    Login
+                                </Link>
+                                <Link
+                                    to='/register'
+                                    className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                                >
+                                    Register
+                                </Link>
+                            </>
+                        }
                     </div>
                 </div>
             )}
